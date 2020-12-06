@@ -4,6 +4,7 @@ from typing import Any, Callable, Dict, Optional, Sequence, Union
 import numpy as np
 
 import torch
+from agent_config import AgentConfig
 from multi_agent import MultiAgent
 from unityagents import UnityEnvironment
 
@@ -11,19 +12,15 @@ torch.set_num_threads(1)
 
 
 class TrainRunner:
-    def __init__(self, agent_count: int, env_path: str, checkpoint_path: str):
+    def __init__(self, config: AgentConfig, env_path: str,
+                 checkpoint_path: str):
         self.env = UnityEnvironment(file_name=env_path)
-        self.agent_count = agent_count
+        self.config = config
         self.brain_name = self.env.brain_names[0]
-        self.agent = MultiAgent(state_size=24,
-                                action_size=2,
-                                agent_count=agent_count,
-                                random_seed=42)
+        self.agent = MultiAgent(config)
         self.checkpoint_path = checkpoint_path
 
-    def run(self,
-            n_episodes: int = 2500,
-            max_t: int = 1000) -> Sequence[float]:
+    def run(self, n_episodes: int = 1700, max_t: int = 500) -> Sequence[float]:
         """
         Params
         ======
@@ -38,7 +35,7 @@ class TrainRunner:
         for i_episode in range(1, n_episodes + 1):
             env_info = self.env.reset(train_mode=True)[self.brain_name]
             states = env_info.vector_observations
-            score = np.zeros(self.agent_count)
+            score = np.zeros(self.config.agent_count)
             self.agent.reset()
             for t in range(max_t):
                 actions = self.agent.act(states)
@@ -52,8 +49,8 @@ class TrainRunner:
                 if np.any(dones):  # exit loop if episode finished
                     break
 
-            scores.append(np.mean(score))
-            scores_deque.append(np.mean(score))
+            scores.append(np.max(score))
+            scores_deque.append(np.max(score))
             score_average = np.mean(scores_deque)
             score_stddev = np.std(scores_deque)
             scores_stddev.append(score_stddev)
@@ -63,7 +60,7 @@ class TrainRunner:
                 print(
                     f'\rEpisode {i_episode}\tAverage Score: {score_average:.2f}'
                 )
-            if score_average > 31.0:
+            if score_average > 1.0:
                 break
 
         return scores

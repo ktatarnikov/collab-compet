@@ -56,13 +56,9 @@ class CriticNetwork(nn.Module):
     def forward(self, states: torch.Tensor,
                 actions: torch.Tensor) -> torch.Tensor:
         """Build a critic (value) network that maps (state, action) pairs -> Q-values."""
-        # print("states: ", states.shape)
-        # print("actions: ", actions.shape)
         x = states
         x = F.relu(self.batch1(self.linear1(x)))
-        # print("x: ", x.shape)
         x = torch.cat((x, actions), dim=1)
-        # print("xcut: ", x.shape)
         x = F.relu(self.batch2(self.linear2(x)))
         x = self.linear3(x)
         return x

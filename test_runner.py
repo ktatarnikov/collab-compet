@@ -3,6 +3,7 @@ from collections import deque
 import numpy as np
 
 import torch
+from agent_config import AgentConfig
 from multi_agent import MultiAgent
 from unityagents import UnityEnvironment
 
@@ -10,14 +11,12 @@ torch.set_num_threads(1)
 
 
 class TestRunner:
-    def __init__(self, agent_count: int, env_path: str, checkpoint_path: str):
-        self.agent_count = agent_count
+    def __init__(self, config: AgentConfig, int, env_path: str,
+                 checkpoint_path: str):
+        self.config = config
         self.env = UnityEnvironment(file_name=env_path)
         self.brain_name = self.env.brain_names[0]
-        self.agent = MultiAgent(state_size=24,
-                                action_size=2,
-                                agent_count=agent_count,
-                                random_seed=42)
+        self.agent = MultiAgent(config)
         self.checkpoint_path = checkpoint_path
 
     def run(self) -> None:
@@ -31,7 +30,7 @@ class TestRunner:
             state = env_info.vector_observations  # get the current state
             self.agent.reset()
 
-            score = np.zeros(self.agent_count)
+            score = np.zeros(self.config.agent_count)
             for j in range(1000):
                 action = self.agent.act(state, add_noise=False)
 
@@ -45,7 +44,7 @@ class TestRunner:
                 if np.any(done):
                     break
 
-            scores_deque.append(np.mean(score))
+            scores_deque.append(np.max(score))
             score_average = np.mean(scores_deque)
             score_stddev = np.std(scores_deque)
             print(
