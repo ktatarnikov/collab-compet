@@ -1,6 +1,6 @@
 [//]: # (Image References)
 
-[image1]: TBD "Trained Agent"
+[image1]: tennis-trained-agent-demo.gif "Trained Agent"
 
 
 # Project 3: Collaboration and Competition
@@ -9,7 +9,7 @@
 
 For this project, you will work with the [Tennis](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Learning-Environment-Examples.md#tennis) environment.
 
-![Trained Agent][image1]
+![Trained Agent](tennis-trained-agent-demo.gif)
 
 In this environment, two agents control rackets to bounce a ball over a net. If an agent hits the ball over the net, it receives a reward of +0.1.  If an agent lets a ball hit the ground or hits the ball out of bounds, it receives a reward of -0.01.  Thus, the goal of each agent is to keep the ball in play.
 
@@ -21,6 +21,41 @@ The task is episodic, and in order to solve the environment, your agents must ge
 - This yields a single **score** for each episode.
 
 The environment is considered solved, when the average (over 100 episodes) of those **scores** is at least +0.5.
+
+
+# Install
+
+1. Create and activate python environment
+```
+  conda env create -f environment.yml
+  conda activate colab-compet
+```
+
+2. Download environment as described in section `Udacity Instructions`
+
+  Note that for Linux version there is a handy script `download.sh`
+
+# Training and testing
+
+1. Training the Agent
+
+  ```
+    python -m train_main
+  ```
+
+  This command will produce the checkpoint files in the folder `checkpoints/*.pth` for each agent.
+
+2. Testing the Agent
+
+  ```
+    python -m test_main
+  ```
+
+3. Running the same commands in jupyter notebook and implementation details
+  - run jupyter `jupyter notebook`
+  - open `Report.ipynb`
+
+## Udacity Instructions
 
 ### Getting Started
 
