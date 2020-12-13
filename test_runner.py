@@ -11,7 +11,7 @@ torch.set_num_threads(1)
 
 
 class TestRunner:
-    def __init__(self, config: AgentConfig, int, env_path: str,
+    def __init__(self, config: AgentConfig, env_path: str,
                  checkpoint_path: str):
         self.config = config
         self.env = UnityEnvironment(file_name=env_path)

@@ -1,7 +1,6 @@
 [//]: # (Image References)
 
-[image1]:  "Trained Agent"
-[image2]:  "Soccer"
+[image1]: TBD "Trained Agent"
 
 
 # Project 3: Collaboration and Competition

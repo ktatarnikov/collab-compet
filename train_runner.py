@@ -55,7 +55,7 @@ class TrainRunner:
             score_stddev = np.std(scores_deque)
             scores_stddev.append(score_stddev)
 
-            if i_episode % 10 == 0:
+            if i_episode % 50 == 0:
                 self.agent.save(self.checkpoint_path)
                 print(
                     f'\rEpisode {i_episode}\tAverage Score: {score_average:.2f}'
