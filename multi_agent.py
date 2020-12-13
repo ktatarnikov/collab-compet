@@ -76,7 +76,7 @@ class MultiAgent:
             agent = self.agents[agent_idx]
             actions_local = self.get_local_actions(
                 experience_sample.get_states())
-            agent.learn_actor(experience_sample.get_states_full(),
+            agent.learn_actor(experience_sample.get_full_states(),
                               actions_local)
             agent.soft_updates()
 

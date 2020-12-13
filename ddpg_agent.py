@@ -76,9 +76,9 @@ class DDPGAgent:
                      gamma: float, agent_index: int,
                      actions_next_full: torch.Tensor):
 
-        next_states_full = experience_sample.get_next_states_full()
-        actions_full = experience_sample.get_actions_full()
-        states_full = experience_sample.get_states_full()
+        next_states_full = experience_sample.get_full_next_states()
+        actions_full = experience_sample.get_full_actions()
+        states_full = experience_sample.get_full_states()
         # ---------------------------- update critic ---------------------------- #
         Q_targets_next = self.critic_target(next_states_full,
                                             actions_next_full)
